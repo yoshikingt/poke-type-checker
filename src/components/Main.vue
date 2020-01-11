@@ -47,40 +47,65 @@
             <b-tr>
               <b-th>4倍弱点</b-th>
               <b-td>
-                <div v-for="str of verySuperEfctList" v-bind:key="str">
-                  {{ str }}
+                <div
+                  v-for="type of verySuperEfctTypeList"
+                  v-bind:key="type.getId"
+                  class="type-style"
+                  v-bind:class="type.getId"
+                >
+                  {{ type.getName }}
                 </div>
               </b-td>
             </b-tr>
             <b-tr>
               <b-th>2倍弱点</b-th>
               <b-td>
-                <div v-for="str of superEfctList" v-bind:key="str">
-                  {{ str }}
+                <div
+                  v-for="type of superEfctTypeList"
+                  v-bind:key="type.getId"
+                  class="type-style"
+                  v-bind:class="type.getId"
+                >
+                  {{ type.getName }}
                 </div>
               </b-td>
             </b-tr>
             <b-tr>
               <b-th>1/2耐性</b-th>
               <b-td>
-                <div v-for="str of notVeryEfctList" v-bind:key="str">
-                  {{ str }}
+                <div
+                  v-for="type of notVeryEfctTypeList"
+                  v-bind:key="type.getId"
+                  class="type-style"
+                  v-bind:class="type.getId"
+                >
+                  {{ type.getName }}
                 </div>
               </b-td>
             </b-tr>
             <b-tr>
               <b-th>1/4耐性</b-th>
               <b-td>
-                <div v-for="str of notVerySuperEfctList" v-bind:key="str">
-                  {{ str }}
+                <div
+                  v-for="type of notVerySuperEfctTypeList"
+                  v-bind:key="type.getId"
+                  class="type-style"
+                  v-bind:class="type.getId"
+                >
+                  {{ type.getName }}
                 </div>
               </b-td>
             </b-tr>
             <b-tr>
               <b-th>こうかなし</b-th>
               <b-td>
-                <div v-for="str of nonEfctList" v-bind:key="str">
-                  {{ str }}
+                <div
+                  v-for="type of nonEfctTypeList"
+                  v-bind:key="type.getId"
+                  class="type-style"
+                  v-bind:class="type.getId"
+                >
+                  {{ type.getName }}
                 </div>
               </b-td>
             </b-tr>
@@ -97,387 +122,405 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component
 export default class Main extends Vue {
   /** data */
+  private readonly NORMAL: Type = new Type(
+    "normal",
+    "ノーマル",
+    ["fighting"],
+    [
+      "normal",
+      "fire",
+      "water",
+      "erectric",
+      "grass",
+      "ice",
+      "poison",
+      "ground",
+      "flying",
+      "psychic",
+      "bug",
+      "rock",
+      "dragon",
+      "dark",
+      "steel",
+      "fairy"
+    ],
+    [""],
+    ["ghost"]
+  );
+  private readonly FIRE: Type = new Type(
+    "fire",
+    "ほのお",
+    ["water", "ground", "rock"],
+    [
+      "normal",
+      "erectric",
+      "fighting",
+      "poison",
+      "flying",
+      "psychic",
+      "ghost",
+      "dragon",
+      "dark"
+    ],
+    ["fire", "grass", "ice", "bug", "steel", "fairy"],
+    []
+  );
+  private readonly WATER: Type = new Type(
+    "water",
+    "みず",
+    ["erectric", "grass"],
+    [
+      "normal",
+      "fighting",
+      "poison",
+      "ground",
+      "flying",
+      "psychic",
+      "bug",
+      "rock",
+      "ghost",
+      "dragon",
+      "dark",
+      "fairy"
+    ],
+    ["fire", "water", "ice", "steel"],
+    []
+  );
+  private readonly ERECTRIC: Type = new Type(
+    "erectric",
+    "でんき",
+    ["ground"],
+    [
+      "normal",
+      "fire",
+      "water",
+      "grass",
+      "ice",
+      "fighting",
+      "poison",
+      "psychic",
+      "bug",
+      "rock",
+      "ghost",
+      "dragon",
+      "dark",
+      "fairy"
+    ],
+    ["erectric", "flying", "steel"],
+    []
+  );
+  private readonly GRASS: Type = new Type(
+    "grass",
+    "くさ",
+    ["fire", "ice", "poison", "flying", "bug"],
+    [
+      "normal",
+      "fighting",
+      "psychic",
+      "rock",
+      "ghost",
+      "dragon",
+      "dark",
+      "steel",
+      "fairy"
+    ],
+    ["water", "erectric", "grass", "ground"],
+    []
+  );
+  private readonly ICE: Type = new Type(
+    "ice",
+    "こおり",
+    ["fire", "fighting", "rock", "steel"],
+    [
+      "normal",
+      "water",
+      "erectric",
+      "grass",
+      "poison",
+      "ground",
+      "flying",
+      "psychic",
+      "bug",
+      "ghost",
+      "dragon",
+      "dark",
+      "fairy"
+    ],
+    ["ice"],
+    []
+  );
+  private readonly FIGHTING: Type = new Type(
+    "fighting",
+    "かくとう",
+    ["flying", "psychic", "fairy"],
+    [
+      "normal",
+      "fire",
+      "water",
+      "erectric",
+      "grass",
+      "ice",
+      "fighting",
+      "poison",
+      "ground",
+      "ghost",
+      "dragon",
+      "steel"
+    ],
+    ["bug", "rock", "dark"],
+    []
+  );
+  private readonly POISON: Type = new Type(
+    "poison",
+    "どく",
+    ["ground", "psychic"],
+    [
+      "normal",
+      "fire",
+      "water",
+      "erectric",
+      "ice",
+      "flying",
+      "rock",
+      "ghost",
+      "dragon",
+      "dark",
+      "steel"
+    ],
+    ["grass", "fighting", "poison", "bug", "fairy"],
+    []
+  );
+  private readonly GROUND: Type = new Type(
+    "ground",
+    "じめん",
+    ["water", "grass", "ice"],
+    [
+      "normal",
+      "fire",
+      "fighting",
+      "ground",
+      "flying",
+      "psychic",
+      "bug",
+      "ghost",
+      "dragon",
+      "dark",
+      "steel",
+      "fairy"
+    ],
+    ["poison", "rock"],
+    ["erectric"]
+  );
+  private readonly FLYING: Type = new Type(
+    "flying",
+    "ひこう",
+    ["erectric", "ice", "rock"],
+    [
+      "normal",
+      "fire",
+      "water",
+      "poison",
+      "flying",
+      "psychic",
+      "ghost",
+      "dragon",
+      "dark",
+      "steel",
+      "fairy"
+    ],
+    ["grass", "fighting", "bug"],
+    ["ground"]
+  );
+  private readonly PSYCHIC: Type = new Type(
+    "psychic",
+    "エスパー",
+    ["bug", "ghost", "dark"],
+    [
+      "normal",
+      "fire",
+      "water",
+      "erectric",
+      "grass",
+      "ice",
+      "poison",
+      "ground",
+      "flying",
+      "rock",
+      "dragon",
+      "steel",
+      "fairy"
+    ],
+    ["fighting", "psychic"],
+    []
+  );
+  private readonly BUG: Type = new Type(
+    "bug",
+    "むし",
+    ["fire", "flying", "rock"],
+    [
+      "normal",
+      "water",
+      "erectric",
+      "ice",
+      "poison",
+      "psychic",
+      "bug",
+      "ghost",
+      "dragon",
+      "dark",
+      "steel",
+      "fairy"
+    ],
+    ["grass", "fighting", "ground"],
+    []
+  );
+  private readonly ROCK: Type = new Type(
+    "rock",
+    "いわ",
+    ["water", "grass", "fighting", "ground", "steel"],
+    [
+      "erectric",
+      "ice",
+      "psychic",
+      "bug",
+      "rock",
+      "ghost",
+      "dragon",
+      "dark",
+      "fairy"
+    ],
+    ["normal", "fire", "poison", "flying"],
+    []
+  );
+  private readonly GHOST: Type = new Type(
+    "ghost",
+    "ゴースト",
+    ["ghost", "dark"],
+    [
+      "fire",
+      "water",
+      "erectric",
+      "grass",
+      "ice",
+      "ground",
+      "flying",
+      "psychic",
+      "rock",
+      "dragon",
+      "steel",
+      "fairy"
+    ],
+    ["poison", "bug"],
+    ["normal", "fighting"]
+  );
+  private readonly DRAGON: Type = new Type(
+    "dragon",
+    "ドラゴン",
+    ["ice", "dragon", "fairy"],
+    [
+      "normal",
+      "fighting",
+      "poison",
+      "ground",
+      "flying",
+      "psychic",
+      "bug",
+      "rock",
+      "ghost",
+      "dark",
+      "steel"
+    ],
+    ["fire", "water", "erectric", "grass"],
+    []
+  );
+  private readonly DARK: Type = new Type(
+    "dark",
+    "あく",
+    ["fighting", "bug", "fairy"],
+    [
+      "normal",
+      "fire",
+      "water",
+      "erectric",
+      "grass",
+      "ice",
+      "poison",
+      "ground",
+      "flying",
+      "rock",
+      "dragon",
+      "steel"
+    ],
+    ["ghost", "dark"],
+    ["psychic"]
+  );
+  private readonly STEEL: Type = new Type(
+    "steel",
+    "はがね",
+    ["fire", "fighting", "ground"],
+    ["water", "erectric", "ghost", "dark"],
+    [
+      "normal",
+      "grass",
+      "ice",
+      "flying",
+      "psychic",
+      "bug",
+      "rock",
+      "dragon",
+      "steel",
+      "fairy"
+    ],
+    ["poison"]
+  );
+  private readonly FAIRY: Type = new Type(
+    "fairy",
+    "フェアリー",
+    ["poison", "steel"],
+    [
+      "normal",
+      "fire",
+      "water",
+      "erectric",
+      "grass",
+      "ice",
+      "ground",
+      "flying",
+      "psychic",
+      "rock",
+      "ghost",
+      "fairy"
+    ],
+    ["fighting", "bug", "dark"],
+    ["dragon"]
+  );
   private typeList: ReadonlyArray<Type> = [
     new Type("none", "なし", [], [], [], []),
-    new Type(
-      "normal",
-      "ノーマル",
-      ["かくとう"],
-      [
-        "ノーマル",
-        "ほのお",
-        "みず",
-        "でんき",
-        "くさ",
-        "こおり",
-        "どく",
-        "じめん",
-        "ひこう",
-        "エスパー",
-        "むし",
-        "いわ",
-        "ドラゴン",
-        "あく",
-        "はがね",
-        "フェアリー"
-      ],
-      [""],
-      ["ゴースト"]
-    ),
-    new Type(
-      "fire",
-      "ほのお",
-      ["みず", "じめん", "いわ"],
-      [
-        "ノーマル",
-        "でんき",
-        "かくとう",
-        "どく",
-        "ひこう",
-        "エスパー",
-        "ゴースト",
-        "ドラゴン",
-        "あく"
-      ],
-      ["ほのお", "くさ", "こおり", "むし", "はがね", "フェアリー"],
-      []
-    ),
-    new Type(
-      "water",
-      "みず",
-      ["でんき", "くさ"],
-      [
-        "ノーマル",
-        "かくとう",
-        "どく",
-        "じめん",
-        "ひこう",
-        "エスパー",
-        "むし",
-        "いわ",
-        "ゴースト",
-        "ドラゴン",
-        "あく",
-        "フェアリー"
-      ],
-      ["ほのお", "みず", "こおり", "はがね"],
-      []
-    ),
-    new Type(
-      "erectric",
-      "でんき",
-      ["じめん"],
-      [
-        "ノーマル",
-        "ほのお",
-        "みず",
-        "くさ",
-        "こおり",
-        "かくとう",
-        "どく",
-        "エスパー",
-        "むし",
-        "いわ",
-        "ゴースト",
-        "ドラゴン",
-        "あく",
-        "フェアリー"
-      ],
-      ["でんき", "ひこう", "はがね"],
-      []
-    ),
-    new Type(
-      "grass",
-      "くさ",
-      ["ほのお", "こおり", "どく", "ひこう", "むし"],
-      [
-        "ノーマル",
-        "かくとう",
-        "エスパー",
-        "いわ",
-        "ゴースト",
-        "ドラゴン",
-        "あく",
-        "はがね",
-        "フェアリー"
-      ],
-      ["みず", "でんき", "くさ", "じめん"],
-      []
-    ),
-    new Type(
-      "ice",
-      "こおり",
-      ["ほのお", "かくとう", "いわ", "はがね"],
-      [
-        "ノーマル",
-        "みず",
-        "でんき",
-        "くさ",
-        "どく",
-        "じめん",
-        "ひこう",
-        "エスパー",
-        "むし",
-        "ゴースト",
-        "ドラゴン",
-        "あく",
-        "フェアリー"
-      ],
-      ["こおり"],
-      []
-    ),
-    new Type(
-      "fighting",
-      "かくとう",
-      ["ひこう", "エスパー", "フェアリー"],
-      [
-        "ノーマル",
-        "ほのお",
-        "みず",
-        "でんき",
-        "くさ",
-        "こおり",
-        "かくとう",
-        "どく",
-        "じめん",
-        "ゴースト",
-        "ドラゴン",
-        "はがね"
-      ],
-      ["むし", "いわ", "あく"],
-      []
-    ),
-    new Type(
-      "poison",
-      "どく",
-      ["じめん", "エスパー"],
-      [
-        "ノーマル",
-        "ほのお",
-        "みず",
-        "でんき",
-        "こおり",
-        "ひこう",
-        "いわ",
-        "ゴースト",
-        "ドラゴン",
-        "あく",
-        "はがね"
-      ],
-      ["くさ", "かくとう", "どく", "むし", "フェアリー"],
-      []
-    ),
-    new Type(
-      "ground",
-      "じめん",
-      ["みず", "くさ", "こおり"],
-      [
-        "ノーマル",
-        "ほのお",
-        "かくとう",
-        "じめん",
-        "ひこう",
-        "エスパー",
-        "むし",
-        "ゴースト",
-        "ドラゴン",
-        "あく",
-        "はがね",
-        "フェアリー"
-      ],
-      ["どく", "いわ"],
-      ["でんき"]
-    ),
-    new Type(
-      "flying",
-      "ひこう",
-      ["でんき", "こおり", "いわ"],
-      [
-        "ノーマル",
-        "ほのお",
-        "みず",
-        "どく",
-        "ひこう",
-        "エスパー",
-        "ゴースト",
-        "ドラゴン",
-        "あく",
-        "はがね",
-        "フェアリー"
-      ],
-      ["くさ", "かくとう", "むし"],
-      ["じめん"]
-    ),
-    new Type(
-      "psychic",
-      "エスパー",
-      ["むし", "ゴースト", "あく"],
-      [
-        "ノーマル",
-        "ほのお",
-        "みず",
-        "でんき",
-        "くさ",
-        "こおり",
-        "どく",
-        "じめん",
-        "ひこう",
-        "いわ",
-        "ドラゴン",
-        "はがね",
-        "フェアリー"
-      ],
-      ["かくとう", "エスパー"],
-      []
-    ),
-    new Type(
-      "bug",
-      "むし",
-      ["ほのお", "ひこう", "いわ"],
-      [
-        "ノーマル",
-        "みず",
-        "でんき",
-        "こおり",
-        "どく",
-        "エスパー",
-        "むし",
-        "ゴースト",
-        "ドラゴン",
-        "あく",
-        "はがね",
-        "フェアリー"
-      ],
-      ["くさ", "かくとう", "じめん"],
-      []
-    ),
-    new Type(
-      "rock",
-      "いわ",
-      ["みず", "くさ", "かくとう", "じめん", "はがね"],
-      [
-        "でんき",
-        "こおり",
-        "エスパー",
-        "むし",
-        "いわ",
-        "ゴースト",
-        "ドラゴン",
-        "あく",
-        "フェアリー"
-      ],
-      ["ノーマル", "ほのお", "どく", "ひこう"],
-      []
-    ),
-    new Type(
-      "ghost",
-      "ゴースト",
-      ["ゴースト", "あく"],
-      [
-        "ほのお",
-        "みず",
-        "でんき",
-        "くさ",
-        "こおり",
-        "じめん",
-        "ひこう",
-        "エスパー",
-        "いわ",
-        "ドラゴン",
-        "はがね",
-        "フェアリー"
-      ],
-      ["どく", "むし"],
-      ["ノーマル", "かくとう"]
-    ),
-    new Type(
-      "dragon",
-      "ドラゴン",
-      ["こおり", "ドラゴン", "フェアリー"],
-      [
-        "ノーマル",
-        "かくとう",
-        "どく",
-        "じめん",
-        "ひこう",
-        "エスパー",
-        "むし",
-        "いわ",
-        "ゴースト",
-        "あく",
-        "はがね"
-      ],
-      ["ほのお", "みず", "でんき", "くさ"],
-      []
-    ),
-    new Type(
-      "dark",
-      "あく",
-      ["かくとう", "むし", "フェアリー"],
-      [
-        "ノーマル",
-        "ほのお",
-        "みず",
-        "でんき",
-        "くさ",
-        "こおり",
-        "どく",
-        "じめん",
-        "ひこう",
-        "いわ",
-        "ドラゴン",
-        "はがね"
-      ],
-      ["ゴースト", "あく"],
-      ["エスパー"]
-    ),
-    new Type(
-      "steel",
-      "はがね",
-      ["ほのお", "かくとう", "じめん"],
-      ["みず", "でんき", "ゴースト", "あく"],
-      [
-        "ノーマル",
-        "くさ",
-        "こおり",
-        "ひこう",
-        "エスパー",
-        "むし",
-        "いわ",
-        "ドラゴン",
-        "はがね",
-        "フェアリー"
-      ],
-      ["どく"]
-    ),
-    new Type(
-      "fairy",
-      "フェアリー",
-      ["どく", "はがね"],
-      [
-        "ノーマル",
-        "ほのお",
-        "みず",
-        "でんき",
-        "くさ",
-        "こおり",
-        "じめん",
-        "ひこう",
-        "エスパー",
-        "いわ",
-        "ゴースト",
-        "フェアリー"
-      ],
-      ["かくとう", "むし", "あく"],
-      ["ドラゴン"]
-    )
+    this.NORMAL,
+    this.FIRE,
+    this.WATER,
+    this.ERECTRIC,
+    this.GRASS,
+    this.ICE,
+    this.FIGHTING,
+    this.POISON,
+    this.GROUND,
+    this.FLYING,
+    this.PSYCHIC,
+    this.BUG,
+    this.ROCK,
+    this.GHOST,
+    this.DRAGON,
+    this.DARK,
+    this.STEEL,
+    this.FAIRY
   ];
-  private verySuperEfctList: Array<string> = [];
-  private superEfctList: Array<string> = [];
-  private normalEfctList: Array<string> = [];
-  private notVeryEfctList: Array<string> = [];
-  private notVerySuperEfctList: Array<string> = [];
-  private nonEfctList: Array<string> = [];
+  private verySuperEfctTypeList: Array<Type> = [];
+  private superEfctTypeList: Array<Type> = [];
+  private normalEfctTypeList: Array<Type> = [];
+  private notVeryEfctTypeList: Array<Type> = [];
+  private notVerySuperEfctTypeList: Array<Type> = [];
+  private nonEfctTypeList: Array<Type> = [];
   private selectedValue1: string = "none";
   private selectedValue2: string = "none";
 
@@ -517,6 +560,12 @@ export default class Main extends Vue {
     var notVeryEfctList: Array<string> = [];
     var notVerySuperEfctList: Array<string> = [];
     var nonEfctList: Array<string> = [];
+    var verySuperEfctTypeList: Array<Type> = [];
+    var superEfctTypeList: Array<Type> = [];
+    var normalEfctTypeList: Array<Type> = [];
+    var notVeryEfctTypeList: Array<Type> = [];
+    var notVerySuperEfctTypeList: Array<Type> = [];
+    var nonEfctTypeList: Array<Type> = [];
 
     const isSingleType: boolean =
       this.selectedType2.getId === "none" ||
@@ -607,21 +656,56 @@ export default class Main extends Vue {
       }
     }
 
-    this.verySuperEfctList = verySuperEfctList;
-    this.superEfctList = superEfctList;
-    this.normalEfctList = normalEfctList;
-    this.notVeryEfctList = notVeryEfctList;
-    this.notVerySuperEfctList = notVerySuperEfctList;
-    this.nonEfctList = nonEfctList;
+    // 判定結果から Type オブジェクトを取得する
+    for (const type of this.typeList) {
+      for (const str of verySuperEfctList) {
+        if (str === type.getId) {
+          verySuperEfctTypeList.push(type);
+        }
+      }
+      for (const str of superEfctList) {
+        if (str === type.getId) {
+          superEfctTypeList.push(type);
+        }
+      }
+      for (const str of normalEfctList) {
+        if (str === type.getId) {
+          normalEfctTypeList.push(type);
+        }
+      }
+      for (const str of notVeryEfctList) {
+        if (str === type.getId) {
+          notVeryEfctTypeList.push(type);
+        }
+      }
+      for (const str of notVerySuperEfctList) {
+        if (str === type.getId) {
+          notVerySuperEfctTypeList.push(type);
+        }
+      }
+      for (const str of nonEfctList) {
+        if (str === type.getId) {
+          nonEfctTypeList.push(type);
+        }
+      }
+    }
+
+    // data にバインディング
+    this.verySuperEfctTypeList = verySuperEfctTypeList;
+    this.superEfctTypeList = superEfctTypeList;
+    this.normalEfctTypeList = normalEfctTypeList;
+    this.notVeryEfctTypeList = notVeryEfctTypeList;
+    this.notVerySuperEfctTypeList = notVerySuperEfctTypeList;
+    this.nonEfctTypeList = nonEfctTypeList;
   }
 
   public clear(): void {
-    this.verySuperEfctList = [];
-    this.superEfctList = [];
-    this.normalEfctList = [];
-    this.notVeryEfctList = [];
-    this.notVerySuperEfctList = [];
-    this.nonEfctList = [];
+    this.verySuperEfctTypeList = [];
+    this.superEfctTypeList = [];
+    this.normalEfctTypeList = [];
+    this.notVeryEfctTypeList = [];
+    this.notVerySuperEfctTypeList = [];
+    this.nonEfctTypeList = [];
     this.selectedValue1 = "none";
     this.selectedValue2 = "none";
   }
@@ -675,5 +759,85 @@ class Type {
 .row {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.type-style {
+  color: white;
+  width: 90px;
+  text-align: center;
+  border-radius: 5px;
+  margin: 3px;
+}
+
+.normal {
+  background-color: #b1b1b1;
+}
+
+.fire {
+  background-color: #e4653f;
+}
+
+.water {
+  background-color: #50abda;
+}
+
+.erectric {
+  background-color: #e8c71a;
+}
+
+.grass {
+  background-color: #9ac30e;
+}
+
+.ice {
+  background-color: #53c4e5;
+}
+
+.fighting {
+  background-color: #e99a3f;
+}
+
+.poison {
+  background-color: #ba79c1;
+}
+
+.ground {
+  background-color: #c8a841;
+}
+
+.flying {
+  background-color: #5e9fe2;
+}
+
+.psychic {
+  background-color: #e885b2;
+}
+
+.bug {
+  background-color: #6cbe50;
+}
+
+.rock {
+  background-color: #b08754;
+}
+
+.ghost {
+  background-color: #756eb4;
+}
+
+.dragon {
+  background-color: #6c81c8;
+}
+
+.dark {
+  background-color: #5a3c1e;
+}
+
+.steel {
+  background-color: #919191;
+}
+
+.fairy {
+  background-color: #e06cbb;
 }
 </style>
