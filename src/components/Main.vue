@@ -113,6 +113,9 @@
         </b-table-simple>
       </b-col>
     </b-row>
+    <b-row>
+      <b-col><small>Copyright &copy; 2020 poke-type-checker</small></b-col>
+    </b-row>
   </b-container>
 </template>
 
