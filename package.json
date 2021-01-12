@@ -39,7 +39,7 @@
     "popper.js": "^1.16.1",
     "portal-vue": "^2.1.6",
     "prettier": "^1.19.1",
-    "sass": "^1.24.5",
+    "sass": "^1.32.4",
     "sass-loader": "^8.0.2",
     "typescript": "~3.5.3",
     "vue-cli-plugin-bootstrap-vue": "^0.6.0",
